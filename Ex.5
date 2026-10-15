@@ -1,0 +1,552 @@
+Prolog – Full Notes
+1. Introduction
+
+Prolog stands for PROgramming in LOGic. It is a declarative programming language based on formal logic.
+
+Unlike procedural languages such as C or Java, where we specify how to solve a problem, Prolog mainly specifies what is true and allows the system to determine how to obtain the answer.
+
+Prolog is widely associated with:
+
+•	Artificial Intelligence
+•	Expert systems
+•	Knowledge representation
+•	Natural language processing
+•	Automated reasoning
+•	Symbolic computation
+
+2. Basic Structure of Prolog
+
+A Prolog program consists mainly of:
+
+•	Facts
+•	Rules
+•	Queries
+•	Facts
+
+A fact represents information that is considered true.
+
+student(ravi).
+student(anu).
+likes(ravi, mathematics).
+
+
+Here:
+
+student/1 is a predicate with one argument.
+likes/2 is a predicate with two arguments.
+Rules
+
+Rules describe relationships between facts.
+
+General form:
+
+head :- body.
+
+Example:
+father(X, Y) :- male(X), parent(X, Y).
+This means:
+
+X is the father of Y if X is male and X is a parent of Y.
+
+Queries
+
+A query asks Prolog whether something is true.
+
+?- student(ravi).
+
+Output:
+
+true.
+
+
+A query can also contain variables:
+
+?- student(X).
+
+Possible answers:
+
+X = ravi
+X = anu
+
+3. Terms in Prolog
+
+Everything in Prolog is represented as a term.
+
+The major types are:
+
+Atom
+
+An atom represents a constant.
+
+Examples:
+
+john
+apple
+computer
+red
+
+Number
+
+Examples:
+
+10
+25
+3.14
+
+
+
+Variable
+
+Variables represent unknown values.
+
+They begin with:
+
+Uppercase letters, or
+Underscore _
+
+Examples:
+
+X
+Person
+Result
+_
+
+Compound Term
+
+A compound term consists of a functor and arguments.
+
+student(ravi)
+likes(ravi, books)
+
+
+likes is the functor and ravi, books are its arguments.
+
+4. Predicates
+
+A predicate describes a relationship or property.
+
+Example:
+
+likes(ravi, cricket).
+
+The predicate is:
+
+likes/2
+
+The number after / represents the arity, i.e. the number of arguments.
+
+Examples:
+
+student/1
+likes/2
+between/3
+
+
+5. Variables
+
+Variables are used to represent unknown values.
+
+Example:
+
+parent(john, mary).
+parent(john, peter).
+
+
+Query:
+
+?- parent(john, X).
+
+
+Output:
+
+X = mary
+X = peter
+
+
+The variable X allows Prolog to find all matching values.
+
+Anonymous variable
+
+The underscore _ is an anonymous variable.
+
+parent(X, _).
+
+It means that the second value is not important.
+
+6. Unification
+
+Unification is one of the most important mechanisms in Prolog.
+
+It attempts to make two terms identical by assigning values to variables.
+
+Example:
+
+X = john.
+
+
+After unification:
+
+X = john
+
+
+Another example:
+
+likes(X, cricket) = likes(ravi, cricket).
+
+Therefore:
+
+X = ravi
+Unification is used extensively when Prolog matches facts with queries.
+
+7. Backtracking
+
+Backtracking is the process Prolog uses to search for alternative solutions.
+
+Consider:
+
+likes(ravi, cricket).
+likes(ravi, football).
+likes(ravi, tennis).
+
+
+Query:
+
+?- likes(ravi, X).
+
+
+Prolog gives:
+
+X = cricket
+X = football
+X = tennis
+
+When the user asks for another solution, Prolog backtracks and searches for another matching fact.
+
+Simple idea
+Try solution
+    ↓
+Success?
+ /     \
+Yes     No
+ |       |
+Return   Backtrack
+answer   and try another
+
+8. Rules and Logical Operators
+
+Prolog uses several important operators.
+
+AND
+
+A comma , represents AND.
+
+father(X, Y) :- male(X), parent(X, Y).
+
+Both conditions must be satisfied.
+
+OR
+
+A semicolon ; represents OR.
+
+likes(X, food) :- likes(X, rice); likes(X, pizza).
+
+NOT
+
+\+ represents negation as failure.
+
+\+ student(ravi)
+
+It succeeds when Prolog cannot prove student(ravi).
+
+9. Recursion
+
+A predicate can call itself. This is called recursion.
+
+Example:
+
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+
+This defines the concept of an ancestor.
+
+If:
+
+parent(john, mary).
+parent(mary, david).
+
+
+Then:
+
+?- ancestor(john, david).
+
+gives:
+
+true.
+
+10. Lists
+
+Lists are an important data structure in Prolog.
+
+Examples:
+
+[]
+[a, b, c]
+[1, 2, 3, 4]
+
+A list can be divided into:
+
+Head – first element
+Tail – remaining elements
+
+Example:
+
+[apple, banana, mango]
+
+
+Head:
+
+apple
+
+Tail:
+
+[banana, mango]
+
+The notation is:
+
+[Head | Tail]
+
+Example:
+
+[H|T] = [a,b,c].
+
+Result:
+
+H = a
+T = [b,c]
+
+11. Common List Predicates
+
+member/2
+
+Checks whether an element belongs to a list.
+
+?- member(b, [a,b,c]).
+
+Result:
+
+true.
+
+append/3
+
+Joins two lists.
+
+?- append([a,b], [c,d], X).
+
+Result:
+
+X = [a,b,c,d].
+
+length/2
+
+Finds the length of a list.
+
+?- length([a,b,c], X).
+
+Result:
+
+X = 3.
+
+12. Arithmetic in Prolog
+
+Prolog uses is for arithmetic evaluation.
+
+Example:
+
+X is 5 + 3.
+
+Result:
+
+X = 8.
+
+Important arithmetic operators:
+
+Operator	Meaning
++		Addition
+-		Subtraction
+*		Multiplication
+/		Division
+mod		Remainder
+
+Example:
+
+X is 10 mod 3.
+
+Result:
+
+X = 1.
+
+Comparison operators
+=:=   Equal arithmetic values
+=\=   Not equal arithmetic values
+<     Less than
+>     Greater than
+=<    Less than or equal
+>=    Greater than or equal
+
+
+Example:
+
+?- 10 > 5.
+True.
+
+
+13. Cut (!)
+
+The cut operator ! controls backtracking.
+
+Example:
+
+max(X, Y, X) :- X >= Y, !.
+max(X, Y, Y).
+
+Once the first rule succeeds and reaches !, Prolog does not backtrack to try the second rule for that invocation.
+
+Uses of cut
+•	Improve efficiency
+•	Prevent unwanted alternatives
+•	Control program execution
+
+14. Fail
+
+fail always causes failure.
+
+Example:
+
+test :- write(‘Hello’), fail.
+
+It forces Prolog to backtrack.
+
+Fail is often used with recursion or backtracking to generate multiple results.
+
+15. Input and Output
+
+Output
+write('Hello').
+
+prints:
+
+Hello
+
+New line
+nl.
+
+Input
+read(X).
+
+reads a value and stores it in X.
+
+16. Example Prolog Program
+
+male(john).
+male(peter).
+female(mary).
+
+parent(john, mary).
+parent(john, peter).
+parent(mary, david).
+
+father(X, Y) :-
+    male(X),
+    parent(X, Y).
+
+grandparent(X, Z) :-
+    parent(X, Y),
+    parent(Y, Z).
+
+Queries:
+
+?- father(john, mary).
+
+Answer:
+
+true.
+
+Query:
+
+?- grandparent(john, david).
+
+Answer:
+
+true.
+
+Query:
+
+?- parent(john, X).
+
+Answers:
+
+X = mary
+X = peter
+
+17. Advantages of Prolog
+
+•	Simple representation of logical knowledge
+•	Excellent for symbolic reasoning
+•	Supports automatic backtracking
+•	Supports recursion naturally
+•	Useful for AI applications
+•	Programs can be relatively concise
+•	Good for knowledge-based systems
+
+
+
+
+18. Disadvantages of Prolog
+
+•	Can be slower for numerical computation
+•	Execution can be difficult to understand for beginners
+•	Heavy dependence on backtracking can affect performance
+•	Less commonly used for general-purpose software development
+•	Debugging complex Prolog programs can be challenging
+
+19. Applications of Prolog
+
+Prolog has been used in:
+
+•	Artificial Intelligence
+•	Expert systems
+•	Natural Language Processing
+•	Theorem proving
+•	Knowledge representation
+•	Planning and scheduling
+•	Pattern matching
+•	Automated reasoning
+•	Educational applications
+
+20. Important Exam Points
+
+Remember these definitions:
+
+Prolog: A declarative logic programming language based on predicates, facts, rules, and logical inference.
+
+Fact: A statement that is assumed to be true.
+
+Rule: A logical relationship expressed using conditions.
+
+Query: A question given to the Prolog system.
+
+Unification: The process of making two terms match by assigning values to variables.
+
+Backtracking: Prolog's mechanism for searching for alternative solutions.
+
+Variable: A symbol representing an unknown value; normally begins with an uppercase letter or _.
+
+Predicate: A representation of a relationship or property.
+
+Recursion: A predicate calling itself.
+
+Cut: !, used to control backtracking.
+
+One-line summary
+
+Prolog = Facts + Rules + Queries + Unification + Backtracking → Logical inference.
